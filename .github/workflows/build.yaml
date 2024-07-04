@@ -1,0 +1,36 @@
+name: Build the app
+
+on: push
+
+jobs:
+  build_android:
+    name: Build Android
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+
+      - name: Setup flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.22.1
+      - run: flutter --version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      #   - name: Run Android tests
+      #     run: flutter test
+
+      - name: Build APK
+        run: flutter build apk --debug
+
+    #   - name: Build App bundle
+    #     run: flutter build appbundle
